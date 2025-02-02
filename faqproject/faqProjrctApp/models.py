@@ -29,3 +29,11 @@ class FAQEXAMPLE(models.Model):
 
     def __str__(self):
         return self.question
+    
+    # db changes
+    def save(self, *args, **kwargs):
+        if not self.question_hi:
+            self.question_hi = sync_translate(self.question, 'hi')
+        if not self.question_bn:
+            self.question_bn = sync_translate(self.question, 'bn')
+        super().save(*args, **kwargs)
