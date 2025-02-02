@@ -4,20 +4,28 @@
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
-from faqproject.faqProjrctApp.models import FAQEXAMPLE
-
+from .models import FAQEXAMPLE
 
 @csrf_exempt
 def admin_faq_view(request):
     if request.method == 'GET':
         faqs = list(FAQEXAMPLE.objects.values())
-        return JsonResponse({'faqs': faqs})
+        lang = request.GET.get('lang', 'en') 
+        print(lang)
+        if(lang == 'hi'):
+         faq_hi = [{'question': faq['question_hi'], 'answer': faq['answer']} for faq in faqs]
+         return JsonResponse({'faqs': faq_hi})
+        elif(lang == 'bn'):
+         faq_bn = [{'question': faq['question_bn'], 'answer': faq['answer']} for faq in faqs]
+         return JsonResponse({'faqs': faq_bn})
+        else:
+         faq_def = [{'question': faq['question'], 'answer': faq['answer']} for faq in faqs]
+         return JsonResponse({'faqs': faq_def})
     elif request.method == 'POST':
         data = json.loads(request.body)
         faq = FAQEXAMPLE.objects.create(question=data['question'], answer=data['answer'])
         return JsonResponse({'message': 'FAQ created', 'faq_id': faq.id})
     
-
 # JavaScript & HTML template for the Admin Panel
 admin_template = '''
 <!DOCTYPE html>

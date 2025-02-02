@@ -1,7 +1,6 @@
-# admin.py
+#admin.py
 from django.contrib import admin
-from faqproject.faqProjrctApp.models import FAQEXAMPLE
-
+from .models import FAQEXAMPLE
 
 @admin.register(FAQEXAMPLE)
 class FAQAdmin(admin.ModelAdmin):

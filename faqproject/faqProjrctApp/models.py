@@ -1,3 +1,4 @@
+#models.py
 from django.db import models
 from googletrans import Translator
 from ckeditor.fields import RichTextField
@@ -37,7 +38,7 @@ class FAQEXAMPLE(models.Model):
 
     def __str__(self):
         return self.question
-    
+  
     # db changes
     def save(self, *args, **kwargs):
         if not self.question_hi:
