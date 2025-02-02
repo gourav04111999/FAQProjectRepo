@@ -21,5 +21,6 @@ from faqProjrctApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('faqs/', views.admin_faq_view, name='admin_faq_api'),
+     path('faqs/page/', views.admin_faq_page, name='admin_faq_page'),
 
 ]

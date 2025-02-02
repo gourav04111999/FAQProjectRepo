@@ -1,6 +1,7 @@
 from django.db import models
 from googletrans import Translator
 from ckeditor.fields import RichTextField
+from django.utils.translation import gettext_lazy as _
 
 translator = Translator()
 
