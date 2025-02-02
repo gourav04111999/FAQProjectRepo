@@ -19,5 +19,7 @@ from django.urls import path
 from faqProjrctApp import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('faqs/', views.admin_faq_view, name='admin_faq_api'),
+
 ]
