@@ -2,6 +2,7 @@ from django.db import models
 from googletrans import Translator
 from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
+from django.core.cache import cache
 
 translator = Translator()
 
@@ -17,6 +18,10 @@ class FAQEXAMPLE(models.Model):
     # Add more language fields as needed
 
     def get_translation(self, lang='en'):
+        cache_key = f'faq_{self.id}_lang_{lang}'
+        cached_translation = cache.get(cache_key)
+        if cached_translation:
+            return cached_translation
 
         
         if lang == 'hi' and self.question_hi:
@@ -25,7 +30,9 @@ class FAQEXAMPLE(models.Model):
             translation = self.question_bn
         else:
             translation = translator.translate(self.question, dest=lang).text if lang != 'en' else self.question
-            
+        
+        cache.set(cache_key, translation, timeout=86400)  # Cache for 1 day
+
         return translation
 
     def __str__(self):
